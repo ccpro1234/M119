@@ -7,25 +7,56 @@
 
 <style>
 :root{
---bg:#0b0b0d;
---panel:#0f1113;
---gold:#ffd24d;
---p:#33b5ff;
---b:#ff6b6b;
---ok:#00ff88;
---bad:#ff0033;
---text:#e6eef6;
---muted:#9aa7b2;
+
+--bg:#edf3fb;
+--panel:#ffffff;
+
+--gold:#ffbf00;
+
+--p:#0094ff;
+--b:#ff5252;
+
+--ok:#00c96b;
+--bad:#ff3b30;
+
+--text:#182230;
+--muted:#66788a;
+
 }
 *{box-sizing:border-box;font-family:Consolas,Segoe UI,monospace}
-body{margin:0;background:var(--bg);color:var(--text)}
+body{
+  margin:0;
+  color:#eaf2ff;
+
+  background:
+  radial-gradient(circle at top,
+    #0681a0 0%,
+    #61035c 40%,
+    #0b30c5 100%);
+};
 
 .top{
-background:linear-gradient(#111,#000);
-padding:10px 14px;
+
+background:
+linear-gradient(
+135deg,
+#0d47a1 0%,
+#1565c0 35%,
+#1e88e5 70%,
+#42a5f5 100%
+);
+
+padding:12px 16px;
+
 display:flex;
 align-items:center;
 gap:14px;
+
+border-bottom:1px solid rgba(255,255,255,.15);
+
+box-shadow:
+0 8px 24px rgba(0,0,0,.18);
+
 }
 .title{color:var(--gold);font-size:20px;font-weight:bold}
 .info{color:var(--gold);font-size:14px}
@@ -34,42 +65,131 @@ gap:14px;
 
 .controls{padding:10px;display:flex;gap:8px}
 button{
-border:none;padding:10px 18px;
-font-size:15px;font-weight:bold;cursor:pointer
-}
-.player{background:var(--p);color:#02131a}
-.banker{background:var(--b);color:#200906}
-.dark{background:#1a1a1a;color:#fff;border:1px solid #333}
+  border:none;
+  padding:10px 18px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
 
+  border-radius:10px;
+  transition:all .25s ease;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(0,0,0,.20);
+}
+
+button:active{
+  transform:scale(.97);
+}
+.player{
+  background:linear-gradient(180deg,#4fc3ff,#0094ff);
+  color:#fff;
+}
+
+.banker{
+  background:linear-gradient(180deg,#ff8a80,#ff5252);
+  color:#fff;
+}
+
+.dark{
+  background:linear-gradient(180deg,#3b3b3b,#202020);
+  color:#fff;
+  border:1px solid #555;
+}
 .main{
 display:grid;
 grid-template-columns:1fr 420px;
 gap:10px;padding:10px
 }
-.panel{background:var(--panel);padding:10px}
+.panel{
 
+background:
+linear-gradient(
+180deg,
+#570252,
+#0a0600
+);
+
+border-radius:16px;
+
+padding:14px;
+
+border:1px solid #dce8f5;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.10);
+
+}
 .lane{
 display:grid;
 grid-template-columns:90px 1fr 120px;
-gap:6px;padding:4px 0;font-size:14px
+gap:8px;
+padding:8px 10px;
+margin-bottom:6px;
+font-size:14px;
+
+background:#2e05c2;
+
+border-radius:10px;
+border:1px solid #d9e6f5;
+
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+transition:all .25s ease;
 }
-.lane strong{font-weight:bold}
 
-.lane.gold{background:#3a2a0b;color:var(--gold)}
-.lane.good{background:#0b3a1a;color:#7cffb2}
-.lane.bad{background:#3a0b0b;color:#ff6b6b}
+.lane:hover{
+transform:translateX(3px);
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
 
-canvas{background:#050607;width:100%;height:260px}
+.lane strong{
+font-weight:bold;
+}
 
-.legend{font-size:13px;margin-top:8px}
-.legend div{margin:2px 0}
+.lane.gold{
+background:linear-gradient(90deg,#fff8d6,#ffe082);
+color:#7a5a00;
+}
+
+.lane.good{
+background:linear-gradient(90deg,#dfffea,#b8ffd5);
+color:#006633;
+}
+
+.lane.bad{
+background:linear-gradient(90deg,#ffe1e1,#ffc1c1);
+color:#a00000;
+}
+
+canvas{
+  display:block;
+  width:100%;
+  max-width:100%;
+  background:#0d0e0d;
+  border:1px solid #d6e4f3;
+  border-radius:12px;
+}
+
+.legend{
+font-size:13px;
+margin-top:8px;
+color:#555;
+}
+
+.legend div{
+margin:3px 0;
+}
 
 .alert{
 margin-top:8px;
-padding:6px;
+padding:8px 10px;
 font-size:13px;
 font-weight:bold;
-display:none
+border-radius:8px;
+display:none;
 }
 .alert.danger{background:#ff6b6b;color:#111}
 .alert.safe{background:#7cffb2;color:#111}
@@ -191,12 +311,11 @@ color:var(--muted);padding:6px
 }
 
 .meta-pct{
-  font-size:1.5em;      /* 1.5 เท่า */
+  font-size:1.7em;
   font-weight:bold;
   color:#ffd24d;
   animation:blinkGlow 1.2s infinite ease-in-out;
 }
-
 @keyframes blinkGlow{
   0%{
     opacity:1;
@@ -217,10 +336,21 @@ color:var(--muted);padding:6px
 
 /* ===== META SIDE BIG BLINK ===== */
 .meta-side{
-  font-size:2.2em;
-  font-weight:bold;
-  text-align:center;   /* กันเยื้อง */
-  animation:metaBlinkSoft 1.4s infinite;
+
+font-size:2.3em;
+
+font-weight:bold;
+
+text-align:center;
+
+letter-spacing:2px;
+
+text-shadow:
+
+0 0 10px currentColor;
+
+animation:metaBlinkSoft 1.3s infinite;
+
 }
 
 @keyframes metaBlinkSoft{
@@ -269,10 +399,12 @@ color:var(--muted);padding:6px
 .led-bar{
   width:100%;
   overflow:hidden;
-  background:#111;
-  border-top:1px solid #333;
   padding:6px 0;
-  position:relative;   /* ต้องมี */
+  position:relative;
+
+  background:linear-gradient(90deg,#1976d2,#42a5f5,#1976d2);
+  border-top:1px solid rgba(255,255,255,.3);
+  box-shadow:0 -4px 12px rgba(25,118,210,.25);
 }
 
 @keyframes ledRun{
